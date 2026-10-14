@@ -4,22 +4,24 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { Header } from './components/Header';
-import { BeatBuddyDisplay } from './components/BeatBuddyDisplay';
-import { PedalController } from './components/PedalController';
-import { SongPartsBar } from './components/SongPartsBar';
-import { MasterToolbar } from './components/MasterToolbar';
-import { SequencerGrid } from './components/SequencerGrid';
-import { SampleManagerModal } from './components/SampleManagerModal';
-import { AddInstrumentModal } from './components/AddInstrumentModal';
-import { CreateRhythmModal } from './components/CreateRhythmModal';
-import { DeleteRhythmModal } from './components/DeleteRhythmModal';
-import { CopyPartModal } from './components/CopyPartModal';
-import { FootswitchConfigModal } from './components/FootswitchConfigModal';
-import { SamplesLibraryView } from './components/SamplesLibraryView';
-import { AudioVisualizer } from './components/AudioVisualizer';
-import { MobileAndPedalGuideModal } from './components/MobileAndPedalGuideModal';
-import { ShareMobileModal } from './components/ShareMobileModal';
+import {
+  Header,
+  BeatBuddyDisplay,
+  PedalController,
+  SongPartsBar,
+  MasterToolbar,
+  SequencerGrid,
+  SampleManagerModal,
+  AddInstrumentModal,
+  CreateRhythmModal,
+  DeleteRhythmModal,
+  CopyPartModal,
+  FootswitchConfigModal,
+  SamplesLibraryView,
+  AudioVisualizer,
+  MobileAndPedalGuideModal,
+  ShareMobileModal,
+} from './components';
 import { Volume2 } from 'lucide-react';
 import { audioEngine } from './audio/AudioEngine';
 import {
