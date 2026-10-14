@@ -50,7 +50,7 @@ import { footswitchManager } from './audio/midiAndPedalManager';
 import { firebaseSyncService } from './services/firebaseSyncService';
 import type { User } from './firebase';
 
-export default function App() {
+export default function app() {
   // Firebase User & Cloud Database Authentication
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isFirebaseLoading, setIsFirebaseLoading] = useState(false);
