@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['id', 'email'])
+        && data.id is string && data.id.size() <= 128
+        && data.email is string && data.email.size() <= 256;
+    }
+
+    function isValidRhythm(data) {
+      return data.keys().hasAll(['id', 'userId', 'name', 'bpm', 'tracks'])
+        && data.id is string && data.id.size() <= 128
+        && data.userId is string && data.userId.size() <= 128
+        && data.name is string && data.name.size() <= 128
+        && data.bpm is number && data.bpm >= 20 && data.bpm <= 320
+        && data.tracks is list;
+    }
+
+    function isValidSample(data) {
+      return data.keys().hasAll(['id', 'userId', 'name'])
+        && data.id is string && data.id.size() <= 128
+        && data.userId is string && data.userId.size() <= 128
+        && data.name is string && data.name.size() <= 128;
+    }
+
+    // Global Studio samples accessible across all devices (PC, mobile, tablet)
+    match /studio_samples/{sampleId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(sampleId) && isValidSample(incoming());
+      allow delete: if isValidId(sampleId);
+    }
+
+    // Global Studio rhythms accessible across all devices
+    match /studio_rhythms/{rhythmId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(rhythmId) && isValidRhythm(incoming());
+      allow delete: if isValidId(rhythmId);
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidUser(incoming()) && incoming().id == userId;
+      allow delete: if isOwner(userId);
+
+      // User rhythm collection
+      match /rhythms/{rhythmId} {
+        allow list, get: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(rhythmId) && isValidRhythm(incoming()) && incoming().userId == userId;
+        allow update: if isOwner(userId) && isValidId(rhythmId) && isValidRhythm(incoming()) && incoming().userId == userId;
+        allow delete: if isOwner(userId) && isValidId(rhythmId);
+      }
+
+      // User audio samples collection
+      match /samples/{sampleId} {
+        allow list, get: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(sampleId) && isValidSample(incoming()) && incoming().userId == userId;
+        allow update: if isOwner(userId) && isValidId(sampleId) && isValidSample(incoming()) && incoming().userId == userId;
+        allow delete: if isOwner(userId) && isValidId(sampleId);
+      }
+    }
+  }
+}

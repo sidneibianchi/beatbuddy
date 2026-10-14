@@ -1,0 +1,6 @@
+{
+  "name": "BeatBuddy Studio - Percussion & Rhythm Sequencer",
+  "description": "Estúdio profissional para criação de ritmos, sequenciamento de percussões complexas, polirritmias, pedal virtual BeatBuddy e suporte a samples customizados.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

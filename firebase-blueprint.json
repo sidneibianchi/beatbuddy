@@ -1,0 +1,151 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile document",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "email"]
+    },
+    "Rhythm": {
+      "title": "Rhythm",
+      "description": "Percussion rhythm pattern and track sequence",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "bpm": {
+          "type": "number"
+        },
+        "swing": {
+          "type": "number"
+        },
+        "timeSignature": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "steps": {
+          "type": "number"
+        },
+        "isFactory": {
+          "type": "boolean"
+        },
+        "tracks": {
+          "type": "array"
+        },
+        "tags": {
+          "type": "array"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "name", "bpm", "tracks"]
+    },
+    "Sample": {
+      "title": "Sample",
+      "description": "Audio percussion sample metadata and audio data",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "filename": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "mimeType": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "size": {
+          "type": "number"
+        },
+        "audioBase64": {
+          "type": "string",
+          "maxLength": 1048576
+        },
+        "url": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "name"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile"
+    },
+    "/users/{userId}/rhythms/{rhythmId}": {
+      "schema": "Rhythm",
+      "description": "User custom and saved rhythms"
+    },
+    "/users/{userId}/samples/{sampleId}": {
+      "schema": "Sample",
+      "description": "User audio percussion samples"
+    },
+    "/studio_samples/{sampleId}": {
+      "schema": "Sample",
+      "description": "Global studio audio samples synced across all devices"
+    },
+    "/studio_rhythms/{rhythmId}": {
+      "schema": "Rhythm",
+      "description": "Global studio rhythms synced across all devices"
+    }
+  }
+}
